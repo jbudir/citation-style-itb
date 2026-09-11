@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0"
+       default-locale="en-US" demote-non-dropping-particle="sort-only">
+  <info>
+    <title>Elsevier Generic Numeric (International Journal, with titles)</title>
+    <title-short>Elsevier Generic Numeric</title-short>
+    <id>http://www.zotero.org/styles/elsevier-generic-numeric-q1-custom</id>
+    <link href="http://www.zotero.org/styles/elsevier-generic-numeric-q1-custom" rel="self"/>
+    <link href="https://www.elsevier.support/publishing/answer/how-should-i-prepare-the-references-in-my-manuscript" rel="documentation"/>
+    <category citation-format="numeric"/>
+    <summary>Generic Elsevier-like numeric style with article titles, abbreviated journal titles when available, article/page numbers, and DOI.</summary>
+    <updated>2026-09-11T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Derivative CSL style licensed CC BY-SA 3.0.</rights>
+  </info>
+
+  <macro name="author">
+    <names variable="author">
+      <name initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text variable="title"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <name initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+      <label form="short" prefix=" (" suffix=")"/>
+    </names>
+  </macro>
+
+  <macro name="year">
+    <choose>
+      <if variable="issued">
+        <date variable="issued"><date-part name="year"/></date>
+      </if>
+      <else><text term="no date" form="short"/></else>
+    </choose>
+  </macro>
+
+  <macro name="edition">
+    <choose>
+      <if is-numeric="edition">
+        <group delimiter=" ">
+          <number variable="edition" form="ordinal"/>
+          <text term="edition" form="short"/>
+        </group>
+      </if>
+      <else><text variable="edition"/></else>
+    </choose>
+  </macro>
+
+  <macro name="access">
+    <choose>
+      <if variable="DOI">
+        <text variable="DOI" prefix="https://doi.org/"/>
+      </if>
+      <else-if variable="URL">
+        <text variable="URL"/>
+        <date variable="accessed" prefix=" (accessed " suffix=")">
+          <date-part name="day" suffix=" "/>
+          <date-part name="month" form="short" suffix=" "/>
+          <date-part name="year"/>
+        </date>
+      </else-if>
+    </choose>
+  </macro>
+
+  <macro name="journal">
+    <group delimiter=" ">
+      <text variable="container-title" form="short" font-style="italic"/>
+      <text variable="volume" font-weight="bold"/>
+      <text macro="year" prefix="(" suffix=")"/>
+      <choose>
+        <if variable="page">
+          <text variable="page"/>
+        </if>
+        <else-if variable="number">
+          <text variable="number"/>
+        </else-if>
+      </choose>
+    </group>
+  </macro>
+
+  <citation collapse="citation-number">
+    <sort><key variable="citation-number"/></sort>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <bibliography entry-spacing="0" second-field-align="flush">
+    <layout suffix=".">
+      <text variable="citation-number" prefix="[" suffix="] "/>
+      <text macro="author" suffix=", "/>
+      <choose>
+        <if type="article-journal article-magazine article-newspaper" match="any">
+          <text variable="title" suffix=", "/>
+          <text macro="journal"/>
+        </if>
+        <else-if type="chapter paper-conference" match="any">
+          <text variable="title" suffix=", "/>
+          <text term="in" text-case="capitalize-first" suffix=": "/>
+          <text macro="editor" suffix=", "/>
+          <text variable="container-title" font-style="italic" suffix=", "/>
+          <text variable="publisher" suffix=", "/>
+          <text variable="publisher-place" suffix=", "/>
+          <text macro="year"/>
+          <text variable="page" prefix=", pp. "/>
+        </else-if>
+        <else-if type="book" match="any">
+          <text variable="title" font-style="italic" suffix=", "/>
+          <text macro="edition" suffix=", "/>
+          <text variable="publisher" suffix=", "/>
+          <text variable="publisher-place" suffix=", "/>
+          <text macro="year"/>
+        </else-if>
+        <else-if type="thesis" match="any">
+          <text variable="title" font-style="italic" suffix=", "/>
+          <text variable="genre" suffix=", "/>
+          <text variable="publisher" suffix=", "/>
+          <text macro="year"/>
+        </else-if>
+        <else-if type="patent" match="any">
+          <text variable="title" suffix=", "/>
+          <text variable="number" suffix=", "/>
+          <text macro="year"/>
+        </else-if>
+        <else>
+          <text variable="title" suffix=", "/>
+          <text variable="publisher" suffix=", "/>
+          <text macro="year"/>
+        </else>
+      </choose>
+      <text macro="access" prefix=". "/>
+    </layout>
+  </bibliography>
+</style>
